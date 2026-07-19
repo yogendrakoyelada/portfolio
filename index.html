@@ -48,33 +48,60 @@
   <main>
     <section id="home" class="hero">
       <div class="hero-bg" aria-hidden="true"></div>
+      <div class="scene" aria-hidden="true">
+        <span class="scene-object scene-object--1" data-depth="1"></span>
+        <span class="scene-object scene-object--2" data-depth="1.5"></span>
+        <span class="scene-object scene-object--3" data-depth="0.8"></span>
+      </div>
       <div class="container hero-content">
         <div class="hero-left">
           <h1 id="heroTitle">YK Analytics</h1>
           <p id="heroTagline">Transforming Data into Business Decisions</p>
           <p class="hero-role" id="heroRole">Business Intelligence Developer — <span id="heroTech">Power BI | SQL | DAX | Power Query</span></p>
+          <p class="hero-description" id="heroDescription">I am a Business Intelligence Developer with experience building actionable dashboards, optimizing SQL data processes, and transforming analytics into strategic decisions.</p>
           <div class="hero-ctas">
             <a class="btn btn-primary" id="downloadResume" href="#" target="_blank">View Resume</a>
-            <button class="btn btn-ghost" id="viewProjectsBtn">View Projects</button>
-            <button class="btn btn-ghost" id="contactBtn">Contact</button>
+            <button type="button" class="btn btn-ghost" id="viewProjectsBtn">View Projects</button>
+            <button type="button" class="btn btn-ghost" id="contactBtn">Contact</button>
           </div>
         </div>
-        <aside class="hero-cards">
-          <div class="card glass">
-            <div class="counter" data-target="3.5">0</div>
-            <div class="counter-label">Years Experience</div>
+        <aside class="hero-right">
+          <div class="hero-visual">
+            <div class="visual-card">
+              <div class="visual-header">
+                <span class="visual-dot"></span>
+                <span class="visual-dot"></span>
+                <span class="visual-dot"></span>
+              </div>
+              <div class="visual-panel">
+                <div class="visual-bar visual-bar--1"></div>
+                <div class="visual-bar visual-bar--2"></div>
+                <div class="visual-bar visual-bar--3"></div>
+                <div class="visual-chart"></div>
+              </div>
+              <div class="visual-stats">
+                <div class="stat"><strong>82%</strong><span>Data efficiency</span></div>
+                <div class="stat"><strong>4.8x</strong><span>KPI improvement</span></div>
+              </div>
+            </div>
           </div>
-          <div class="card glass">
-            <div class="counter" data-target="15">0</div>
-            <div class="counter-label">Dashboards</div>
-          </div>
-          <div class="card glass">
-            <div class="counter" data-target="30">0</div>
-            <div class="counter-label">Reports</div>
-          </div>
-          <div class="card glass">
-            <div class="counter" data-target="50">0</div>
-            <div class="counter-label">DAX Measures</div>
+          <div class="hero-cards">
+            <div class="card glass">
+              <div class="counter" data-target="3.5">0</div>
+              <div class="counter-label">Years Experience</div>
+            </div>
+            <div class="card glass">
+              <div class="counter" data-target="15">0</div>
+              <div class="counter-label">Dashboards</div>
+            </div>
+            <div class="card glass">
+              <div class="counter" data-target="30">0</div>
+              <div class="counter-label">Reports</div>
+            </div>
+            <div class="card glass">
+              <div class="counter" data-target="50">0</div>
+              <div class="counter-label">DAX Measures</div>
+            </div>
           </div>
         </aside>
       </div>

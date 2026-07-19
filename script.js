@@ -128,6 +128,8 @@ function renderProfile(profile){
   $('#heroTitle').textContent = profile.name;
   $('#heroTagline').textContent = profile.tagline;
   $('#heroRole').innerHTML = `${profile.role} — <span id="heroTech">${profile.tech.join(' | ')}</span>`;
+  const heroDescription = $('#heroDescription');
+  if (heroDescription) heroDescription.textContent = profile.summary || heroDescription.textContent;
   document.title = `${profile.name} — ${profile.tagline}`;
   $('#currentYear').textContent = new Date().getFullYear();
   // About
@@ -489,10 +491,77 @@ function setupObservers(){
   $$('section .card, .project-card, .skill-card, .code-card, .timeline .card, .about-card').forEach(n=>anim.observe(n));
 }
 
+// 3D scene motion using cursor and scroll depth
+function setupHero3D(){
+  const hero = document.querySelector('.hero');
+  const sceneObjects = Array.from(document.querySelectorAll('.scene-object'));
+  if (!hero || sceneObjects.length === 0) return;
+
+  function updateScene(x, y){
+    hero.style.setProperty('--mouse-x', x.toFixed(4));
+    hero.style.setProperty('--mouse-y', y.toFixed(4));
+    sceneObjects.forEach((obj)=>{
+      const depth = parseFloat(obj.dataset.depth) || 1;
+      const xOffset = x * depth * 18;
+      const yOffset = y * depth * 18;
+      obj.style.transform = `translate3d(${xOffset}px, ${yOffset}px, ${-depth * 36}px) rotateZ(${depth * 18}deg)`;
+    });
+  }
+
+  function handlePointerMove(event){
+    const rect = hero.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+    const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+    updateScene(x, y);
+  }
+
+  function handleScroll(){
+    const scrollValue = Math.min(1, window.scrollY / 1000);
+    hero.style.setProperty('--scroll-depth', scrollValue.toFixed(4));
+  }
+
+  hero.addEventListener('pointermove', handlePointerMove);
+  hero.addEventListener('pointerleave', ()=> updateScene(0, 0));
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  handleScroll();
+}
+
+function setupSkills3D(){
+  const skillsGrid = document.getElementById('skillsGrid');
+  if (!skillsGrid) return;
+  const cards = Array.from(skillsGrid.querySelectorAll('.skill-card'));
+
+  function updateCards(){
+    const gridRect = skillsGrid.getBoundingClientRect();
+    const centerX = gridRect.left + gridRect.width / 2;
+    cards.forEach(card=>{
+      const cardRect = card.getBoundingClientRect();
+      const offset = (cardRect.left + cardRect.width / 2) - centerX;
+      const maxOffset = (gridRect.width / 2) + cardRect.width;
+      const ratio = Math.max(-1, Math.min(1, offset / maxOffset));
+      const rotateY = ratio * 40;
+      const rotateX = Math.sign(ratio) * Math.min(12, Math.abs(ratio) * 20);
+      const translateZ = 40 - Math.abs(ratio) * 34;
+      const translateY = Math.abs(ratio) * 18;
+      const scale = 1 - Math.abs(ratio) * 0.12;
+      const opacity = 1 - Math.abs(ratio) * 0.4;
+      card.style.transform = `translateZ(${translateZ}px) translateY(${translateY}px) rotateY(${rotateY}deg) rotateX(${rotateX}deg) scale(${scale})`;
+      card.style.opacity = `${opacity}`;
+      card.style.zIndex = `${100 - Math.round(Math.abs(ratio) * 100)}`;
+    });
+  }
+
+  skillsGrid.addEventListener('scroll', ()=> requestAnimationFrame(updateCards), { passive: true });
+  window.addEventListener('resize', ()=> requestAnimationFrame(updateCards));
+  updateCards();
+}
+
 // Init static features immediately
 try {
   setupNav();
   setupScrollSpy();
+  setupHero3D();
+  setupSkills3D();
   
   const viewBtn = $('#viewProjectsBtn');
   if (viewBtn) {
