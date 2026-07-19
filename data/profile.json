@@ -2,16 +2,19 @@
   "name": "Yogendra Koyelada",
   "tagline": "Transforming Data into Business Decisions",
   "role": "Business Intelligence Developer",
-  "tech": ["Power BI","SQL","DAX","Power Query"],
-  "summary": "I build actionable data solutions — dashboards, reports, and data platforms that empower business decisions. Specialized in Power BI, SQL Server, DAX, Power Query, SSIS and Microsoft Fabric.",
+  "tech": ["Power BI", "SQL", "DAX", "Power Query", "Data Modeling"],
+  "email": "YogendraYogi32@gmail.com",
+  "phone": "+91 789399954",
+  "resumeUrl": "https://drive.google.com/file/d/YOUR_RESUME_FILE_ID/view?usp=sharing",
+  "summary": "I am a Business Intelligence Developer with 3.5 years of experience building actionable data solutions. I specialize in designing high-impact interactive dashboards in Power BI, writing optimized SQL databases, and developing sophisticated DAX measures that translate raw data into strategic business decisions.",
   "socials": [
-    {"name":"Email","url":"mailto:yogendra@example.com","icon":"✉️"},
-    {"name":"GitHub","url":"https://github.com/yogendrakoyelada","icon":"🐙"},
-    {"name":"LinkedIn","url":"https://www.linkedin.com/in/yogendra/","icon":"🔗"}
+    {"name": "Email", "url": "mailto:YogendraYogi32@gmail.com", "icon": "✉️"},
+    {"name": "GitHub", "url": "https://github.com/yogendrakoyelada", "icon": "🐙"},
+    {"name": "LinkedIn", "url": "https://www.linkedin.com/in/yogendra-koyelada/", "icon": "🔗"}
   ],
   "career": [
-    {"title":"SQL Developer","period":"2022","description":"Focused on database development, ETL and query tuning."},
-    {"title":"Power BI Developer","period":"2023","description":"Built interactive dashboards and self-service reporting."},
-    {"title":"Business Intelligence Developer","period":"2026","description":"End-to-end BI solutions including modeling, automation and Fabric integration."}
+    {"title": "SQL Developer", "period": "2023", "description": "Focused on database development, ETL pipelines, and performance tuning."},
+    {"title": "Power BI Developer", "period": "2024", "description": "Built interactive dashboards, customized KPI cards, and self-service reporting."},
+    {"title": "Business Intelligence Developer", "period": "2025 - Present", "description": "End-to-end BI solutions including modeling, automation, and advanced DAX integration."}
   ]
 }

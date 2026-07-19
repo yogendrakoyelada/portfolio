@@ -1,5 +1,12 @@
 [
-  {"title":"Company A — BI Team","period":"2022 - 2023","description":"SQL Developer focusing on ETL, stored procedures and performance tuning."},
-  {"title":"Company B — Analytics","period":"2023 - 2025","description":"Power BI Developer. Delivered self-service analytics and enterprise reports."},
-  {"title":"Freelance / Consulting","period":"2025 - Present","description":"BI solutions, Power BI modeling, and automation for mid-market clients."}
+  {
+    "title": "Business Intelligence Developer (Insurance Analytics)",
+    "period": "2.2 Years Focus",
+    "description": "Designed and optimized comprehensive Power BI reporting systems for claims operations, premium collections, and agent performance. Developed custom KPIs tracking claim ratios, claims payment timelines, settlement percentages, and renewals. Engineered agent performance comparison tables that allowed management to analyze premium contributions and speed up claims processing. Focused heavily on report user experience and immediate information delivery to reduce SLA breaches."
+  },
+  {
+    "title": "Business Intelligence Developer (Sales & Strategy)",
+    "period": "1.3 Years Focus",
+    "description": "Created interactive sales performance platforms with regional comparisons and quota tracking. Implemented dynamic parameter selections and 'what-if' analyses for discount structures during sales declines, empowering sales leaders to make strategic promotion decisions. Extracted strategic insights to identify low-performance periods, prompting the introduction of new offers that recovered revenue dips and improved overall profit margins."
+  }
 ]

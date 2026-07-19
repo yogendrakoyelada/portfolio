@@ -1,4 +1,20 @@
 [
-  {"id":"dax-ytd","title":"YTD Sales","code":"YTD Sales = TOTALYTD(SUM(Sales[Amount]), 'Date'[Date])"},
-  {"id":"dax-running","title":"Running Total","code":"Running Total = CALCULATE(SUM(Table[Value]), FILTER(ALLSELECTED(Table), Table[Index] <= MAX(Table[Index])))"}
+  {
+    "id": "dax-calculate-filter",
+    "title": "Claim Ratio (CALCULATE & FILTER)",
+    "description": "Computes the net claim ratio by dividing total settled/approved claim amounts against total premium using CALCULATE with ALL() to remove slicer context. Used in executive dashboards to monitor portfolio health in real time.",
+    "code": "Claim Ratio = \nVAR TotalClaims = \n    CALCULATE(\n        SUM(FactClaims[ClaimAmount]),\n        FILTER(\n            ALL(FactClaims[ClaimStatus]),\n            FactClaims[ClaimStatus] = \"Settled\" || FactClaims[ClaimStatus] = \"Approved\"\n        )\n    )\nVAR TotalPremium = \n    CALCULATE(\n        SUM(FactPolicies[PremiumAmount]),\n        ALL(FactPolicies[PolicyStatus])\n    )\nRETURN\n    DIVIDE(TotalClaims, TotalPremium, 0)"
+  },
+  {
+    "id": "dax-dynamic-measure",
+    "title": "Dynamic KPI Selector (SWITCH & SELECTEDVALUE)",
+    "description": "Powers a field-parameter-driven KPI card that dynamically switches between Revenue, Claims, Loss Ratio, and SLA Breaches based on user slicer selection. Eliminates the need for multiple separate measures on the report canvas.",
+    "code": "Selected Metric Value = \nVAR SelectedMetric = SELECTEDVALUE(DimMetricSelector[MetricName], \"Revenue\")\nRETURN\n    SWITCH(\n        SelectedMetric,\n        \"Revenue\", SUM(FactSales[Revenue]),\n        \"Claims\", SUM(FactClaims[ClaimAmount]),\n        \"Loss Ratio\", [Claim Ratio],\n        \"SLA Breaches\", COUNTROWS(FILTER(FactClaims, FactClaims[SettlementDays] > 30)),\n        BLANK()\n    )"
+  },
+  {
+    "id": "dax-dynamic-title",
+    "title": "Dynamic Title for KPI Cards (Interactivity)",
+    "description": "Generates context-aware titles for report visuals that update automatically based on region and date slicer selections. Improves report readability and eliminates manual title editing when sharing reports across business units.",
+    "code": "Dynamic KPI Title = \nVAR SelectedRegion = SELECTEDVALUE(DimRegion[RegionName], \"All Regions\")\nVAR MinSelectedDate = MIN('Date'[Date])\nVAR MaxSelectedDate = MAX('Date'[Date])\nVAR FormatStart = FORMAT(MinSelectedDate, \"MMM YYYY\")\nVAR FormatEnd = FORMAT(MaxSelectedDate, \"MMM YYYY\")\nRETURN\n    \"Performance for \" & SelectedRegion & \" (\" & FormatStart & \" - \" & FormatEnd & \")\""
+  }
 ]
