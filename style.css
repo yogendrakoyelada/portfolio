@@ -81,6 +81,20 @@ body{
 .modal .modal-body{display:flex;gap:18px;padding:18px}
 .modal .modal-left{flex:1}
 .modal .modal-right{width:420px;background:var(--glass);padding:12px}
+/* Gallery */
+.gallery{position:relative;border-radius:8px;overflow:hidden;background:#050507}
+.gallery-track{display:flex;transition:transform 300ms ease}
+.g-img{min-width:100%;height:380px;background-size:cover;background-position:center}
+.g-controls{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:12px;pointer-events:none}
+.g-controls button{pointer-events:auto;background:rgba(0,0,0,0.4);border:0;color:#fff;padding:8px;border-radius:8px}
+.g-thumb-row{display:flex;gap:8px;margin-top:8px;overflow:auto}
+.g-thumb{width:64px;height:44px;flex:0 0 auto;border-radius:6px;background-size:cover;background-position:center;border:2px solid transparent}
+.g-thumb.active{border-color:var(--accent)}
+/* code highlighting tokens */
+.token.keyword{color:#ff9b4d;font-weight:700}
+.token.number{color:#7be4ff}
+.token.string{color:#9bffb3}
+.token.comment{color:#6b6f75;font-style:italic}
 /* Responsive */
 @media(max-width:900px){
   .hero-content{flex-direction:column}
@@ -93,6 +107,7 @@ body{
 @media(max-width:520px){
   .container{padding:16px}
   .project-thumb{height:120px}
+  .g-img{height:220px}
 }
 /* Focus states */
 :focus{outline:2px solid rgba(255,122,0,0.25);outline-offset:2px}

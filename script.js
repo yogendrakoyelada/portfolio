@@ -25,6 +25,32 @@ function el(tag, attrs={}, children=[]){
   return d;
 }
 
+// Simple syntax highlighter for SQL/DAX (lightweight, client-side)
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function highlight(code, lang='sql'){
+  let out = escapeHtml(code);
+  // comments
+  if(lang==='sql'){
+    out = out.replace(/(--.*?$)/gim, '<span class="token comment">$1</span>');
+    const keywords = ['SELECT','FROM','WHERE','JOIN','ON','GROUP BY','ORDER BY','INNER','LEFT','RIGHT','FULL','SUM','COUNT','AS','IN','AND','OR','HAVING','OVER','PARTITION BY'];
+    keywords.forEach(k=>{
+      const re = new RegExp('\\b'+k+'\\b','ig'); out = out.replace(re, `<span class="token keyword">$&</span>`);
+    });
+    out = out.replace(/\b(\d+)\b/g, '<span class="token number">$1</span>');
+    out = out.replace(/('[^']*')/g, '<span class="token string">$1</span>');
+  } else if(lang==='dax'){
+    out = out.replace(/(\/\/.*?$)/gim, '<span class="token comment">$1</span>');
+    const k2 = ['CALCULATE','SUM','FILTER','ALLSELECTED','MAX','MIN','TOTALYTD','VAR','RETURN','IF','VALUES'];
+    k2.forEach(k=>{ const re = new RegExp('\\b'+k+'\\b','ig'); out = out.replace(re, `<span class="token keyword">$&</span>`); });
+    out = out.replace(/\b(\d+)\b/g, '<span class="token number">$1</span>');
+    out = out.replace(/("[^"]*"|'[^']*')/g, '<span class="token string">$1</span>');
+  }
+  return out;
+}
+
 // Counters
 function animateCounter(node, target){
   const isFloat = (String(target).indexOf('.')>-1);
@@ -122,7 +148,7 @@ function renderProjects(projects){
     const card = el('article',{class:'project-card',tabIndex:0},[]);
     const thumb = el('div',{class:'project-thumb',style:`background-image:url(${p.gallery?.[0]||'assets/images/placeholder-project.svg'})`},[]);
     const chips = el('div',{class:'chips'},[]);
-    (p.industries||[]).forEach(i=>chips.appendChild(el('span',{class:'chip'},[document.createTextNode(i)])));
+    (p.industries||p.industries||[]).forEach(i=>chips.appendChild(el('span',{class:'chip'},[document.createTextNode(i)])));
     const desc = el('div',{},[document.createTextNode(p.short || '')]);
     const btns = el('div',{class:'project-actions'},[]);
     const view = el('button',{class:'btn btn-ghost'},[document.createTextNode('View Case Study')]);
@@ -137,12 +163,41 @@ function renderProjects(projects){
   filter.appendChild(el('option',{value:'all'},['All Industries']));
   industries.forEach(i=>filter.appendChild(el('option',{value:i},[document.createTextNode(i)])));
   filter.addEventListener('change', ()=>{
-    const v = filter.value; if(v==='all') renderProjects(allProjects); else renderProjects(allProjects.filter(p=>p.industries.includes(v)));
+    const v = filter.value; if(v==='all') renderProjects(allProjects); else renderProjects(allProjects.filter(p=>p.industries && p.industries.includes(v)));
   });
   $('#projectsSearch').addEventListener('input', e=>{
     const q = e.target.value.toLowerCase();
     renderProjects(allProjects.filter(p=>p.title.toLowerCase().includes(q) || (p.short||'').toLowerCase().includes(q)));
   });
+}
+
+// Gallery controller used in modal
+function createGallery(galleryImages){
+  const wrap = el('div',{class:'gallery'},[]);
+  const track = el('div',{class:'gallery-track'},[]);
+  galleryImages.forEach(src=>{
+    const g = el('div',{class:'g-img',style:`background-image:url(${src})`},[]);
+    track.appendChild(g);
+  });
+  wrap.appendChild(track);
+  const controls = el('div',{class:'g-controls'},[]);
+  const prev = el('button',{},[document.createTextNode('◀')]);
+  const next = el('button',{},[document.createTextNode('▶')]);
+  controls.appendChild(prev); controls.appendChild(next);
+  wrap.appendChild(controls);
+
+  let idx = 0; const imgs = track.children;
+  function update(){ track.style.transform = `translateX(-${idx * 100}%)`; }
+  prev.addEventListener('click', ()=>{ idx = (idx-1+imgs.length)%imgs.length; update(); });
+  next.addEventListener('click', ()=>{ idx = (idx+1)%imgs.length; update(); });
+  // keyboard
+  wrap.tabIndex = 0;
+  wrap.addEventListener('keydown', e=>{ if(e.key==='ArrowLeft') prev.click(); if(e.key==='ArrowRight') next.click(); });
+  // swipe support
+  let startX = null; wrap.addEventListener('pointerdown', e=>{ startX = e.clientX; wrap.setPointerCapture(e.pointerId); });
+  wrap.addEventListener('pointerup', e=>{ if(startX===null) return; const dx = e.clientX - startX; if(Math.abs(dx)>40){ if(dx<0) next.click(); else prev.click(); } startX=null; });
+
+  return wrap;
 }
 
 // Modal
@@ -154,8 +209,26 @@ function openProjectModal(id){
   const body = el('div',{class:'modal-body'},[]);
   const left = el('div',{class:'modal-left'},[]);
   const right = el('aside',{class:'modal-right'},[]);
-  left.innerHTML = `<h3>${p.title}</h3><p>${p.overview}</p><h4>Business Problem</h4><p>${p.businessProblem}</p><h4>KPIs</h4><ul>${(p.kpis||[]).map(k=>`<li>${k}</li>`).join('')}</ul>`;
-  right.innerHTML = `<strong>Technologies</strong><div>${(p.technologies||[]).join(', ')}</div><div style="margin-top:12px"><button class='btn' id='closeModal'>Close</button></div>`;
+
+  // gallery
+  const gallery = createGallery(p.gallery && p.gallery.length? p.gallery : ['assets/images/placeholder-project.svg']);
+  left.appendChild(gallery);
+
+  const content = el('div',{},[]);
+  content.innerHTML = `<h3>${p.title}</h3><p>${p.overview}</p><h4>Business Problem</h4><p>${p.businessProblem||''}</p><h4>KPIs</h4><ul>${(p.kpis||[]).map(k=>`<li>${k}</li>`).join('')}</ul>`;
+  left.appendChild(content);
+
+  // right column: sections with collapsible behavior on mobile
+  const sections = ['Overview','Business Users','SQL','Power Query','Data Model','DAX','Insights','Challenges','Timeline','Technologies'];
+  const secContainer = el('div',{},[]);
+  // populate
+  secContainer.innerHTML = `
+    <div><strong>Technologies</strong><div>${(p.technologies||[]).join(', ')}</div></div>
+    <div style="margin-top:12px"><strong>Project Duration</strong><div>${(p.timeline? `${p.timeline.start} → ${p.timeline.end}` : '')}</div></div>
+  `;
+  right.appendChild(secContainer);
+  right.appendChild(el('div',{},[el('button',{class:'btn',id:'closeModal'},[document.createTextNode('Close')]) ]));
+
   body.appendChild(left); body.appendChild(right); modal.appendChild(body); root.appendChild(modal);
   $('#closeModal').focus();
   $('#closeModal').addEventListener('click', closeModal);
@@ -176,7 +249,8 @@ function renderCodeList(nodeId, items, lang){
     const copy = el('button',{class:'copy-btn',title:'Copy code'},[document.createTextNode('Copy')]);
     toolbar.appendChild(copy);
     const pre = el('pre',{},[]);
-    const code = el('code',{},[document.createTextNode(it.code)]);
+    const code = el('code',{},[]);
+    code.innerHTML = highlight(it.code, lang);
     pre.appendChild(code);
     card.appendChild(toolbar); card.appendChild(pre);
     node.appendChild(card);
