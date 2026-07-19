@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="480" viewBox="0 0 800 480">
+  <rect width="800" height="480" fill="#0c0c10"/>
+  <g fill="#fff" opacity="0.04">
+    <rect x="80" y="80" width="640" height="320" rx="6" />
+  </g>
+  <text x="50%" y="50%" text-anchor="middle" font-family="Inter, sans-serif" font-size="20" fill="#fff" opacity="0.06">Insurance Table Mock</text>
+</svg>

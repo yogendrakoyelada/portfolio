@@ -1,0 +1,6 @@
+/* Netlify redirects - simple */
+/* Redirects to index for SPA behavior */
+/* /login  /login  301! */
+/* Catch-all to index for client-side routing */
+/* Uncomment if needed */
+#  /* /  /index.html  200 */

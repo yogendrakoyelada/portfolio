@@ -1,0 +1,28 @@
+[
+  {
+    "id":"ins-001",
+    "title":"Insurance Claims Dashboard",
+    "short":"Executive insurance analytics for claims, loss ratios and SLA monitoring.",
+    "overview":"A star-schema Power BI solution to provide claim-level insights, SLA tracking and fraud indicators.",
+    "businessProblem":"Claims operations lacked unified metrics across lines of business and SLA breaches were not visible until post-period close.",
+    "businessUsers":["Claims Manager","Fraud Analyst","CFO"],
+    "kpis":["Claims Count","Loss Ratio","Average Settlement Time","SLA Breaches"],
+    "gallery":["assets/images/insurance-1.svg","assets/images/insurance-2.svg","assets/images/insurance-3.svg"],
+    "video":"",
+    "sql":"-- Sample SQL to aggregate claims by month\nSELECT YEAR(c.claim_date) as yr, MONTH(c.claim_date) as mth, COUNT(*) as claims_count, SUM(c.settlement_amount) as total_settlement\nFROM claims c\nGROUP BY YEAR(c.claim_date), MONTH(c.claim_date);",
+    "powerQuery":"// Sample Power Query steps\nlet\n  Source = Sql.Database(\"server\",\"db\"),\n  Claims = Source{[Schema=\"dbo\",Item=\"claims\"]}[Data]\nin\n  Claims",
+    "dataModel":"Star schema with FactClaims and DimPolicy, DimDate, DimCustomer.",
+    "dax":"TotalClaims = COUNTROWS(FactClaims)",
+    "insights":"Top 3 drivers of loss ratio are region X, product family Y and channel Z. Implementing automated alerts reduced SLA breaches by 35%.",
+    "challenges":"Heterogeneous source systems and late-arriving transactions required robust incremental refresh and staging.",
+    "technologies":["Power BI Desktop","Power BI Service","SQL Server","DAX","Power Query","Azure Blob Storage"],
+    "timeline":{"start":"2024-02","end":"2024-06"}
+  },
+  {
+    "id":"sales-001",
+    "title":"Sales Performance Platform",
+    "short":"Region-level sales insights with quota tracking and top-performers dashboard.",
+    "industries":["Sales"],
+    "gallery":["assets/images/placeholder-project.svg"]
+  }
+]

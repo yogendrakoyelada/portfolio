@@ -1,0 +1,4 @@
+[
+  {"id":"sql-join-1","title":"Sales by Region (JOIN)","code":"SELECT r.region_name, SUM(s.amount) as sales\nFROM sales s\nJOIN regions r ON s.region_id = r.id\nGROUP BY r.region_name;"},
+  {"id":"sql-window-1","title":"Running Total (Window)","code":"SELECT order_date, amount, SUM(amount) OVER (ORDER BY order_date) as running_total\nFROM orders;"}
+]

@@ -1,0 +1,4 @@
+[
+  {"id":"dax-ytd","title":"YTD Sales","code":"YTD Sales = TOTALYTD(SUM(Sales[Amount]), 'Date'[Date])"},
+  {"id":"dax-running","title":"Running Total","code":"Running Total = CALCULATE(SUM(Table[Value]), FILTER(ALLSELECTED(Table), Table[Index] <= MAX(Table[Index])))"}
+]

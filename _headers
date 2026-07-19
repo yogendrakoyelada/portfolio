@@ -1,0 +1,10 @@
+/* Netlify _headers - security and caching */
+/* Set content-type for JSON files and add caching */
+/data/*
+  Cache-Control: max-age=60
+
+/assets/*
+  Cache-Control: max-age=86400
+
+/index.html
+  X-Frame-Options: DENY
