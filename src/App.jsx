@@ -13,7 +13,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [activeSection, setActiveSection] = useState('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  const [isAtBottom, setIsAtBottom] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -37,6 +37,10 @@ export default function App() {
       if (current && current !== activeSection) {
         setActiveSection(current);
       }
+
+      // Check if reached bottom
+      const bottomReached = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50;
+      setIsAtBottom(bottomReached);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -173,27 +177,33 @@ export default function App() {
             </main>
           </div>
 
-          <div style={{
-            position: 'fixed',
-            bottom: '20px',
-            right: '20px',
-            zIndex: 50,
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            background: 'rgba(5, 5, 7, 0.8)',
-            backdropFilter: 'blur(10px)',
-            padding: '8px 16px',
-            borderRadius: '20px',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            color: '#e9eef3',
-            fontSize: '0.85rem',
-            fontWeight: '500',
-            pointerEvents: 'auto'
-          }}>
+          <a 
+            href={portfolioData?.profile?.pixelPeakLink || '#'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`pixelpeak-badge ${isAtBottom ? 'visible-on-mobile' : ''}`}
+            style={{
+              position: 'fixed',
+              bottom: '20px',
+              right: '20px',
+              zIndex: 50,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              background: 'rgba(5, 5, 7, 0.8)',
+              backdropFilter: 'blur(10px)',
+              padding: '8px 16px',
+              borderRadius: '20px',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              color: '#e9eef3',
+              fontSize: '0.85rem',
+              fontWeight: '500',
+              pointerEvents: 'auto',
+              textDecoration: 'none'
+            }}>
             <span style={{ opacity: 0.8 }}>Product by PixelPeak</span>
             <img src="/assets/images/pixelpeak.png" alt="PixelPeak Logo" style={{ height: '24px', width: 'auto' }} />
-          </div>
+          </a>
         </div>
       </Router>
     </DataContext.Provider>

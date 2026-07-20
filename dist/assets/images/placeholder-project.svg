@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="480" viewBox="0 0 800 480">
+  <rect width="800" height="480" fill="#0f0f12"/>
+  <g fill="#FF7A00" opacity="0.08">
+    <circle cx="140" cy="120" r="120" />
+    <circle cx="640" cy="360" r="180" />
+  </g>
+  <text x="50%" y="52%" text-anchor="middle" font-family="Inter, sans-serif" font-size="28" fill="#fff" opacity="0.06">Placeholder Image</text>
+</svg>

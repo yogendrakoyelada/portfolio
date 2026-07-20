@@ -1,0 +1,48 @@
+[
+  {
+    "id": "ins-001",
+    "title": "Insurance Claims & Premium Dashboard",
+    "short": "Executive insurance analytics for claims, premium collection, agent performance, and claim settlement SLAs.",
+    "overview": "A star-schema Power BI solution to provide claim-level insights, SLA tracking, premium distributions, and claim ratios across multiple lines of business.",
+    "businessProblem": "Operations lacked real-time visibility into claim ratios, agent performance, and premium collection metrics. Manual reporting delayed the detection of SLA breaches in settlement pipelines.",
+    "businessUsers": ["Claims Executive", "Operations Director", "Underwriting Manager", "Agent Performance Manager"],
+    "kpis": ["Total Premium Collected", "Claim Ratio (%)", "Claim Renewal Rate", "Average Settlement Time (Days)", "SLA Compliance Rate (%)"],
+    "gallery": [
+      "assets/images/insurance-1.svg",
+      "assets/images/insurance-2.svg",
+      "assets/images/insurance-3.svg"
+    ],
+    "video": "assets/videos/insurance-demo.mp4",
+    "sql": "-- Calculate monthly claim count and total payout\nSELECT \n  YEAR(c.reported_date) as yr, \n  MONTH(c.reported_date) as mth, \n  COUNT(c.claim_id) as claims_count, \n  SUM(c.claim_amount) as total_payout\nFROM FactClaims c\nGROUP BY YEAR(c.reported_date), MONTH(c.reported_date)\nORDER BY yr DESC, mth DESC;",
+    "powerQuery": "// Transform and clean insurance claims schema\nlet\n  Source = Sql.Database(\"insurance-server\", \"claims_db\"),\n  claims = Source{[Schema=\"dbo\",Item=\"FactClaims\"]}[Data],\n  RemovedUnused = Table.RemoveColumns(claims,{\"AuditLog\"}),\n  SetTypes = Table.TransformColumnTypes(RemovedUnused,{{\"claim_amount\", Currency.Type}, {\"reported_date\", type date}})\nin\n  SetTypes",
+    "dataModel": "Star schema connecting FactClaims as central fact table with DimPolicy, DimCustomer, DimAgent, and DimDate as dimension tables.",
+    "dax": "Claim Ratio = \nVAR TotalClaims = SUM(FactClaims[ClaimAmount])\nVAR TotalPremium = SUM(FactPolicies[PremiumAmount])\nRETURN\nDIVIDE(TotalClaims, TotalPremium, 0)",
+    "insights": "1. Identified region-specific loss trends, highlighting a 12% rise in claim ratio in the Auto line.\n2. Compared agent performances, showing that 15% of agents drove 50% of high-value renewals.\n3. Pinpointed bottlenecks in claim settlements, reducing SLA breaches by 25% through alert systems.",
+    "challenges": "Merging disjointed legacy system policy records and handling late-arriving premium adjustments. Resolved by implementing robust incremental loading in Power Query and standardized mapping.",
+    "technologies": ["Power BI Desktop", "SQL Server", "DAX", "Power Query", "Data Modeling"],
+    "timeline": {"start": "2024-01", "end": "2024-06"},
+    "industries": ["Insurance"]
+  },
+  {
+    "id": "sales-001",
+    "title": "Sales Performance & Strategy Platform",
+    "short": "Region-level sales insights with quota tracking, sales team comparisons, and dynamic pricing analysis.",
+    "overview": "An interactive sales intelligence platform helping regional leads track revenue quotas and make real-time pricing and promotion decisions during sales declines.",
+    "businessProblem": "Sales executives struggled to model custom discounts dynamically during low-sales periods, resulting in missed quotas and slow reaction to regional sales dips.",
+    "businessUsers": ["VP of Sales", "Regional Sales Managers", "Sales Strategists"],
+    "kpis": ["Total Revenue", "Quota Achievement (%)", "Average Order Value", "Discount Rate (%)", "Customer Acquisition Cost"],
+    "gallery": [
+      "assets/images/placeholder-project.svg"
+    ],
+    "video": "assets/videos/sales-demo.mp4",
+    "sql": "-- Retrieve top sales reps per region using window functions\nSELECT \n  rep_name,\n  region,\n  revenue,\n  DENSE_RANK() OVER (PARTITION BY region ORDER BY revenue DESC) as rep_rank\nFROM SalesRepPerformance;",
+    "powerQuery": "// Merge Transactions with Region Metadata\nlet\n  Source = Sql.Database(\"sales-server\", \"sales_db\"),\n  transactions = Source{[Schema=\"dbo\",Item=\"FactSales\"]}[Data],\n  JoinedRegions = Table.NestedJoin(transactions, {\"region_id\"}, DimRegions, {\"region_id\"}, \"DimRegions\", JoinKind.Inner)\nin\n  JoinedRegions",
+    "dataModel": "Star schema connecting FactSales to DimProduct, DimCustomer, DimStore, and DimDate.",
+    "dax": "Revenue Quota Achievement = \nVAR ActualSales = SUM(FactSales[Revenue])\nVAR Quota = SUM(DimQuota[TargetAmount])\nRETURN\nDIVIDE(ActualSales, Quota, 0)",
+    "insights": "1. Identified historical sales dips in Q3, helping design dynamic promotional campaigns.\n2. Enabled sales leads to calculate optimal discount ranges, preserving margins while recovering lost volumes.\n3. Increased quota tracking transparency, boosting sales representative alignment by 18%.",
+    "challenges": "Handling over 10M+ transaction records without affecting real-time query speed. Solved by implementing summary aggregations in SQL Server and optimizing complex DAX filters.",
+    "technologies": ["Power BI Desktop", "SQL Server", "DAX", "Power Query", "Data Modeling"],
+    "timeline": {"start": "2024-07", "end": "2024-11"},
+    "industries": ["Sales"]
+  }
+]
