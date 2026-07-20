@@ -1,0 +1,200 @@
+{
+  "profile": {
+    "name": "Yogendra Koyelada",
+    "tagline": "Transforming Data into Business Decisions",
+    "role": "Business Intelligence Developer",
+    "tech": [
+      "Power BI",
+      "SQL",
+      "DAX",
+      "Power Query",
+      "Data Modeling"
+    ],
+    "email": "YogendraYogi32@gmail.com",
+    "phone": "+91 789399954",
+    "resumeUrl": "https://drive.google.com/file/d/YOUR_RESUME_FILE_ID/view?usp=sharing",
+    "summary": "I am a Business Intelligence Developer with 3.5 years of experience building actionable data solutions. I specialize in designing high-impact interactive dashboards in Power BI, writing optimized SQL databases, and developing sophisticated DAX measures that translate raw data into strategic business decisions.",
+    "socials": [
+      {
+        "name": "Email",
+        "url": "mailto:YogendraYogi32@gmail.com",
+        "icon": "✉️"
+      },
+      {
+        "name": "GitHub",
+        "url": "https://github.com/yogendrakoyelada",
+        "icon": "🐙"
+      },
+      {
+        "name": "LinkedIn",
+        "url": "https://www.linkedin.com/in/yogendra-koyelada/",
+        "icon": "🔗"
+      }
+    ],
+    "career": [
+      {
+        "title": "SQL Developer",
+        "period": "2023",
+        "description": "Focused on database development, ETL pipelines, and performance tuning."
+      },
+      {
+        "title": "Power BI Developer",
+        "period": "2024",
+        "description": "Built interactive dashboards, customized KPI cards, and self-service reporting."
+      },
+      {
+        "title": "Business Intelligence Developer",
+        "period": "2025 - Present",
+        "description": "End-to-end BI solutions including modeling, automation, and advanced DAX integration."
+      }
+    ]
+  },
+  "skills": [
+    {
+      "name": "Power BI",
+      "level": "Expert",
+      "icon": "📊"
+    },
+    {
+      "name": "SQL Server",
+      "level": "Advanced",
+      "icon": "🗄️"
+    },
+    {
+      "name": "DAX",
+      "level": "Advanced",
+      "icon": "∑"
+    },
+    {
+      "name": "Power Query",
+      "level": "Advanced",
+      "icon": "🔁"
+    },
+    {
+      "name": "SSIS",
+      "level": "Intermediate",
+      "icon": "➡️"
+    },
+    {
+      "name": "Data Modeling",
+      "level": "Advanced",
+      "icon": "📐"
+    },
+    {
+      "name": "RLS",
+      "level": "Intermediate",
+      "icon": "🔒"
+    },
+    {
+      "name": "Fabric",
+      "level": "Intermediate",
+      "icon": "☁️"
+    }
+  ],
+  "projects": [
+    {
+      "id": "ins-001",
+      "title": "Insurance Claims & Premium Dashboard",
+      "industries": [
+        "Insurance"
+      ],
+      "technologies": [
+        "Power BI Desktop",
+        "SQL Server",
+        "DAX",
+        "Power Query",
+        "Data Modeling"
+      ],
+      "businessProblem": "Operations lacked real-time visibility into claim ratios, agent performance, and premium collection metrics. Manual reporting delayed the detection of SLA breaches in settlement pipelines.",
+      "gallery": [
+        "assets/images/insurance-1.svg",
+        "assets/images/insurance-2.svg",
+        "assets/images/insurance-3.svg"
+      ],
+      "video": "assets/videos/insurance-demo.mp4"
+    },
+    {
+      "id": "sales-001",
+      "title": "Sales Performance & Strategy Platform",
+      "industries": [
+        "Sales"
+      ],
+      "technologies": [
+        "Power BI Desktop",
+        "SQL Server",
+        "DAX",
+        "Power Query",
+        "Data Modeling"
+      ],
+      "businessProblem": "Sales executives struggled to model custom discounts dynamically during low-sales periods, resulting in missed quotas and slow reaction to regional sales dips.",
+      "gallery": [
+        "assets/images/placeholder-project.svg"
+      ],
+      "video": "assets/videos/sales-demo.mp4"
+    }
+  ],
+  "experience": [
+    {
+      "title": "Business Intelligence Developer (Insurance Analytics)",
+      "period": "2.2 Years Focus",
+      "description": "Designed and optimized comprehensive Power BI reporting systems for claims operations, premium collections, and agent performance. Developed custom KPIs tracking claim ratios, claims payment timelines, settlement percentages, and renewals. Engineered agent performance comparison tables that allowed management to analyze premium contributions and speed up claims processing. Focused heavily on report user experience and immediate information delivery to reduce SLA breaches."
+    },
+    {
+      "title": "Business Intelligence Developer (Sales & Strategy)",
+      "period": "1.3 Years Focus",
+      "description": "Created interactive sales performance platforms with regional comparisons and quota tracking. Implemented dynamic parameter selections and 'what-if' analyses for discount structures during sales declines, empowering sales leaders to make strategic promotion decisions. Extracted strategic insights to identify low-performance periods, prompting the introduction of new offers that recovered revenue dips and improved overall profit margins."
+    }
+  ],
+  "certifications": [
+    {
+      "title": "Microsoft Certified: Power BI Data Analyst Associate (PL-300)",
+      "period": "Online Certification",
+      "description": "Validated skills in designing data models, building reports, configuring security (RLS), and deploying enterprise dashboard solutions in the Power BI Service."
+    },
+    {
+      "title": "Advanced SQL & Database Development Certificate",
+      "period": "Online Certification",
+      "description": "Certified in writing optimized queries, designing views, database indexes, stored procedures, and implementing CTE-based analytics."
+    }
+  ],
+  "sql": [
+    {
+      "id": "sql-cte-window",
+      "title": "Data Retrieval with CTEs & Window Functions",
+      "description": "Leveraged Common Table Expressions (CTEs) to simplify multi-step aggregations. Applied DENSE_RANK() and SUM() window functions with PARTITION BY to compute per-region monthly sales rankings and running revenue totals — enabling trend analysis without subqueries.",
+      "code": "-- Calculate monthly sales rank within each region and dynamic running totals\nWITH MonthlySalesCTE AS (\n  SELECT \n    r.RegionName,\n    DATEFROMPARTS(YEAR(s.OrderDate), MONTH(s.OrderDate), 1) AS SalesMonth,\n    SUM(s.Revenue) AS MonthlyRevenue,\n    COUNT(s.OrderID) AS TotalOrders\n  FROM FactSales s\n  INNER JOIN DimRegion r ON s.RegionID = r.RegionID\n  WHERE s.OrderStatus = 'Completed'\n  GROUP BY r.RegionName, YEAR(s.OrderDate), MONTH(s.OrderDate)\n)\nSELECT \n  RegionName,\n  SalesMonth,\n  MonthlyRevenue,\n  -- Rank sales performance of months per region\n  DENSE_RANK() OVER (PARTITION BY RegionName ORDER BY MonthlyRevenue DESC) as MonthRank,\n  -- Running total of revenue over time for each region\n  SUM(MonthlyRevenue) OVER (\n    PARTITION BY RegionName \n    ORDER BY SalesMonth \n    ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\n  ) as RunningTotalRevenue\nFROM MonthlySalesCTE;"
+    },
+    {
+      "id": "sql-views-indexes",
+      "title": "Database Optimization: Views & Indexing",
+      "description": "Created a schema-bound view on the claims settlement table and materialized it using a unique clustered index — significantly reducing Power BI query load times. Added a non-clustered covering index on frequently-joined foreign key columns.",
+      "code": "-- Create a materializable view for claims summary to simplify Power BI connectivity\nCREATE VIEW dbo.vw_ClaimSettlementPerformance\nWITH SCHEMABINDING -- Bind schema for creating clustered index\nAS\nSELECT \n  c.ClaimID,\n  c.PolicyID,\n  c.ClaimStatus,\n  c.ReportedDate,\n  c.ClaimAmount,\n  DATEDIFF(day, c.ReportedDate, c.SettledDate) as SettlementDays\nFROM dbo.FactClaims c\nWHERE c.ClaimStatus = 'Settled';\nGO\n\n-- Create a unique clustered index on the view to materialize it and speed up reads\nCREATE UNIQUE CLUSTERED INDEX IX_vw_ClaimSettlementPerformance_ClaimID \nON dbo.vw_ClaimSettlementPerformance (ClaimID);\n\n-- Create a non-clustered index on FactClaims foreign keys to optimize joins\nCREATE NONCLUSTERED INDEX IX_FactClaims_PolicyID_ClaimStatus\nON dbo.FactClaims (PolicyID, ClaimStatus)\nINCLUDE (ClaimAmount, ReportedDate, SettledDate);"
+    },
+    {
+      "id": "sql-stored-procedure",
+      "title": "Stored Procedures: ETL & Data Automation",
+      "description": "Built a parameterized stored procedure for aggregating monthly claim performance metrics with full error handling via TRY/CATCH. Accepts date range and minimum settlement amount as inputs, enabling flexible reporting automation and Power BI dataset refresh pipelines.",
+      "code": "-- Parameterized Stored Procedure to aggregate monthly claim performance metrics\nCREATE PROCEDURE dbo.sp_GetClaimsMetricsByPeriod\n  @StartDate DATE,\n  @EndDate DATE,\n  @MinSettlementAmount DECIMAL(18,2) = 0.00\nAS\nBEGIN\n  SET NOCOUNT ON;\n\n  BEGIN TRY\n    -- Validate dates\n    IF @StartDate > @EndDate\n    BEGIN\n      RAISERROR('Start date cannot be greater than end date.', 16, 1);\n      RETURN;\n    END\n\n    -- Retrieve aggregated records\n    SELECT \n      p.ProductLine,\n      COUNT(c.ClaimID) AS TotalClaims,\n      SUM(c.ClaimAmount) AS AggregateClaimAmount,\n      AVG(DATEDIFF(day, c.ReportedDate, c.SettledDate)) AS AvgSettlementDays,\n      SUM(CASE WHEN DATEDIFF(day, c.ReportedDate, c.SettledDate) > 30 THEN 1 ELSE 0 END) AS SLABreachCount\n    FROM dbo.FactClaims c\n    INNER JOIN dbo.DimPolicy p ON c.PolicyID = p.PolicyID\n    WHERE c.ReportedDate BETWEEN @StartDate AND @EndDate\n      AND c.ClaimAmount >= @MinSettlementAmount\n    GROUP BY p.ProductLine\n    ORDER BY AggregateClaimAmount DESC;\n\n  END TRY\n  BEGIN CATCH\n    -- Error handling\n    DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();\n    DECLARE @ErrorSeverity INT = ERROR_SEVERITY();\n    DECLARE @ErrorState INT = ERROR_STATE();\n    \n    RAISERROR(@ErrorMessage, @ErrorSeverity, @ErrorState);\n  END CATCH\nEND;\nGO"
+    }
+  ],
+  "dax": [
+    {
+      "id": "dax-calculate-filter",
+      "title": "Claim Ratio (CALCULATE & FILTER)",
+      "description": "Computes the net claim ratio by dividing total settled/approved claim amounts against total premium using CALCULATE with ALL() to remove slicer context. Used in executive dashboards to monitor portfolio health in real time.",
+      "code": "Claim Ratio = \nVAR TotalClaims = \n    CALCULATE(\n        SUM(FactClaims[ClaimAmount]),\n        FILTER(\n            ALL(FactClaims[ClaimStatus]),\n            FactClaims[ClaimStatus] = \"Settled\" || FactClaims[ClaimStatus] = \"Approved\"\n        )\n    )\nVAR TotalPremium = \n    CALCULATE(\n        SUM(FactPolicies[PremiumAmount]),\n        ALL(FactPolicies[PolicyStatus])\n    )\nRETURN\n    DIVIDE(TotalClaims, TotalPremium, 0)"
+    },
+    {
+      "id": "dax-dynamic-measure",
+      "title": "Dynamic KPI Selector (SWITCH & SELECTEDVALUE)",
+      "description": "Powers a field-parameter-driven KPI card that dynamically switches between Revenue, Claims, Loss Ratio, and SLA Breaches based on user slicer selection. Eliminates the need for multiple separate measures on the report canvas.",
+      "code": "Selected Metric Value = \nVAR SelectedMetric = SELECTEDVALUE(DimMetricSelector[MetricName], \"Revenue\")\nRETURN\n    SWITCH(\n        SelectedMetric,\n        \"Revenue\", SUM(FactSales[Revenue]),\n        \"Claims\", SUM(FactClaims[ClaimAmount]),\n        \"Loss Ratio\", [Claim Ratio],\n        \"SLA Breaches\", COUNTROWS(FILTER(FactClaims, FactClaims[SettlementDays] > 30)),\n        BLANK()\n    )"
+    },
+    {
+      "id": "dax-dynamic-title",
+      "title": "Dynamic Title for KPI Cards (Interactivity)",
+      "description": "Generates context-aware titles for report visuals that update automatically based on region and date slicer selections. Improves report readability and eliminates manual title editing when sharing reports across business units.",
+      "code": "Dynamic KPI Title = \nVAR SelectedRegion = SELECTEDVALUE(DimRegion[RegionName], \"All Regions\")\nVAR MinSelectedDate = MIN('Date'[Date])\nVAR MaxSelectedDate = MAX('Date'[Date])\nVAR FormatStart = FORMAT(MinSelectedDate, \"MMM YYYY\")\nVAR FormatEnd = FORMAT(MaxSelectedDate, \"MMM YYYY\")\nRETURN\n    \"Performance for \" & SelectedRegion & \" (\" & FormatStart & \" - \" & FormatEnd & \")\""
+    }
+  ]
+}
