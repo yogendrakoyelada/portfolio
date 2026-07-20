@@ -287,13 +287,21 @@ export default function AdminDashboard() {
     databases.getDocument(DATABASE_ID, COLLECTION_ID, DOCUMENT_ID)
       .then(response => {
         const parsedData = JSON.parse(response.jsonString);
+        if (parsedData.profile && parsedData.profile.pixelPeakLink === undefined) {
+          parsedData.profile.pixelPeakLink = '';
+        }
         setFullData(parsedData);
       })
       .catch(err => {
         console.error('Failed to load from Appwrite, falling back to local json', err);
         fetch('/data/data.json')
           .then(res => res.json())
-          .then(data => setFullData(data));
+          .then(data => {
+            if (data.profile && data.profile.pixelPeakLink === undefined) {
+              data.profile.pixelPeakLink = '';
+            }
+            setFullData(data);
+          });
       });
   }, [navigate]);
 
