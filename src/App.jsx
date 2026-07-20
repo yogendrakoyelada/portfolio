@@ -177,33 +177,40 @@ export default function App() {
             </main>
           </div>
 
-          <a 
-            href={portfolioData?.profile?.pixelPeakLink || '#'}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`pixelpeak-badge ${isAtBottom ? 'visible-on-mobile' : ''}`}
-            style={{
-              position: 'fixed',
-              bottom: '20px',
-              right: '20px',
-              zIndex: 50,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              background: 'rgba(5, 5, 7, 0.8)',
-              backdropFilter: 'blur(10px)',
-              padding: '8px 16px',
-              borderRadius: '20px',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              color: '#ffffff',
-              fontSize: '0.85rem',
-              fontWeight: '600',
-              pointerEvents: 'auto',
-              textDecoration: 'none'
-            }}>
-            <span>Product by PixelPeak</span>
-            <img src="/assets/images/pixelpeak.png" alt="PixelPeak Logo" style={{ height: '24px', width: 'auto' }} />
-          </a>
+          {(() => {
+            const link = portfolioData?.profile?.pixelPeakLink;
+            const BadgeTag = link ? 'a' : 'div';
+            return (
+              <BadgeTag 
+                href={link ? link : undefined}
+                target={link ? "_blank" : undefined}
+                rel={link ? "noopener noreferrer" : undefined}
+                className={`pixelpeak-badge ${isAtBottom ? 'visible-on-mobile' : ''}`}
+                style={{
+                  position: 'fixed',
+                  bottom: '20px',
+                  right: '20px',
+                  zIndex: 50,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  background: 'rgba(5, 5, 7, 0.8)',
+                  backdropFilter: 'blur(10px)',
+                  padding: '8px 16px',
+                  borderRadius: '20px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  color: '#ffffff',
+                  fontSize: '0.85rem',
+                  fontWeight: '600',
+                  pointerEvents: 'auto',
+                  textDecoration: 'none',
+                  cursor: link ? 'pointer' : 'default'
+                }}>
+                <span>Product by PixelPeak</span>
+                <img src="/assets/images/pixelpeak.png" alt="PixelPeak Logo" style={{ height: '24px', width: 'auto' }} />
+              </BadgeTag>
+            );
+          })()}
         </div>
       </Router>
     </DataContext.Provider>
