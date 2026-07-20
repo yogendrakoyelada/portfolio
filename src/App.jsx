@@ -39,7 +39,7 @@ export default function App() {
       }
 
       // Check if reached bottom
-      const bottomReached = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50;
+      const bottomReached = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 200;
       setIsAtBottom(bottomReached);
     };
 
@@ -195,13 +195,13 @@ export default function App() {
               padding: '8px 16px',
               borderRadius: '20px',
               border: '1px solid rgba(255, 255, 255, 0.1)',
-              color: '#e9eef3',
+              color: '#ffffff',
               fontSize: '0.85rem',
-              fontWeight: '500',
+              fontWeight: '600',
               pointerEvents: 'auto',
               textDecoration: 'none'
             }}>
-            <span style={{ opacity: 0.8 }}>Product by PixelPeak</span>
+            <span>Product by PixelPeak</span>
             <img src="/assets/images/pixelpeak.png" alt="PixelPeak Logo" style={{ height: '24px', width: 'auto' }} />
           </a>
         </div>
