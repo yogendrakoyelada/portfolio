@@ -14,6 +14,8 @@ export default function App() {
   const [activeSection, setActiveSection] = useState('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     // Scroll tracking
     const handleScroll = () => {
@@ -53,16 +55,28 @@ export default function App() {
         console.error('Failed to load from Appwrite, falling back to local json', err);
         // Fallback for development if appwrite fails
         fetch('/data/data.json')
-          .then(res => res.json())
+          .then(res => {
+            if (!res.ok) throw new Error('Network response was not ok');
+            return res.json();
+          })
           .then(data => {
             setPortfolioData(data);
+            setLoading(false);
+          })
+          .catch(fallbackErr => {
+            console.error('Fallback failed', fallbackErr);
+            setError('Failed to load portfolio data. Please try again later.');
             setLoading(false);
           });
       });
   }, []);
 
   if (loading) {
-    return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', color: '#fff' }}>Loading Portfolio...</div>;
+    return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', color: '#fff', fontSize: '1.2rem' }}>Loading Portfolio...</div>;
+  }
+
+  if (error) {
+    return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', color: '#ff7a00', fontSize: '1.2rem' }}>{error}</div>;
   }
 
   const navItems = [

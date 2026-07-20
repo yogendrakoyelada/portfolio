@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Microsoft Certified: Power BI Data Analyst Associate (PL-300)",
+    "period": "Online Certification",
+    "description": "Validated skills in designing data models, building reports, configuring security (RLS), and deploying enterprise dashboard solutions in the Power BI Service."
+  },
+  {
+    "title": "Advanced SQL & Database Development Certificate",
+    "period": "Online Certification",
+    "description": "Certified in writing optimized queries, designing views, database indexes, stored procedures, and implementing CTE-based analytics."
+  }
+]
