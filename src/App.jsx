@@ -178,7 +178,10 @@ export default function App() {
           </div>
 
           {(() => {
-            const link = portfolioData?.profile?.pixelPeakLink;
+            let link = portfolioData?.profile?.pixelPeakLink;
+            if (link && !link.startsWith('http://') && !link.startsWith('https://')) {
+              link = 'https://' + link;
+            }
             const BadgeTag = link ? 'a' : 'div';
             return (
               <BadgeTag 
