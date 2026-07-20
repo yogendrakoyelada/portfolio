@@ -103,7 +103,7 @@ export default function App() {
             <header className="site-header">
               <nav className="nav">
                 <div className="nav-inner container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                  <Link to="/" className="brand">Yogendra</Link>
+                  <Link to="/" className="brand">YK</Link>
                   
                   {/* Desktop Nav */}
                   <div className="desktop-nav" style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
@@ -171,6 +171,28 @@ export default function App() {
                 <Route path="/login" element={<Login />} />
               </Routes>
             </main>
+          </div>
+
+          <div style={{
+            position: 'fixed',
+            bottom: '20px',
+            right: '20px',
+            zIndex: 50,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            background: 'rgba(5, 5, 7, 0.8)',
+            backdropFilter: 'blur(10px)',
+            padding: '8px 16px',
+            borderRadius: '20px',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            color: '#e9eef3',
+            fontSize: '0.85rem',
+            fontWeight: '500',
+            pointerEvents: 'auto'
+          }}>
+            <span style={{ opacity: 0.8 }}>Product by PixelPeak</span>
+            <img src="/assets/images/pixelpeak.png" alt="PixelPeak Logo" style={{ height: '24px', width: 'auto' }} />
           </div>
         </div>
       </Router>
